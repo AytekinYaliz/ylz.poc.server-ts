@@ -9,6 +9,6 @@ Thumbs.db
 
 # xxx/**/*
 dist
-node_modules
 docs
 logs
+node_modules
