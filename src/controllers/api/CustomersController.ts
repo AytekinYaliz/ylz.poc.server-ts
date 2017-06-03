@@ -1,9 +1,9 @@
-import HttpPromise from '../../lib/HttpPromise';
+//import HttpPromise from '../../lib/HttpPromise';
 import {Router, Request, Response, NextFunction} from "express";
 
 import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../IController';
-import {IGetCustomersOutput, IPostCustomerInput} from '../../models/Customer';
+import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
 
 
 export default class CustomersController implements IController {
@@ -24,7 +24,7 @@ export default class CustomersController implements IController {
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {        
-        res.json({});
+        res.json({aa: 123});
     }
     
     get(req: Request, res: Response, next: NextFunction): void {

@@ -2,7 +2,9 @@ import Utilities from './Utilities';
 
 
 export enum ConfigKeysEnum {
-    port
+    port,
+    bodyLimit,
+    corsHeaders
 }
 export enum DeploymentTypesEnum {
     test,
@@ -31,7 +33,9 @@ export default class Config {
     private loadConfig(): void {
         if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.local)) {
             this.config = {
-                'port': '4001'
+                'port': '4001',
+                'bodyLimit': '100kb',
+                'corsHeaders': '["Link"]'
             };
             return;
         } else if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {

@@ -11,3 +11,15 @@ export interface IGetCustomersOutput {
     id?: number;
     text: string;
 }
+
+export interface IGetCustomerOutput {
+    dbId: number;
+    id?: number;
+    text: string;
+}
+
+export interface IPostCustomerInput {
+    dbId: number;
+    id?: number;
+    text: string;
+}

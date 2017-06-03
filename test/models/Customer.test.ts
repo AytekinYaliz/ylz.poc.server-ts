@@ -1,6 +1,6 @@
 /// <reference types='jest' />
 
-import {IGetCustomersInput} from '../../src/models/Customer';
+import {IGetCustomersOutput} from '../../src/models/Customer';
 
 const Customer1 = {'name': 'aytekin'};
 
