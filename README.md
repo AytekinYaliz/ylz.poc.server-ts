@@ -37,4 +37,5 @@
 | supertest                       | HTTP assertion library.                                               |
 | ts-test                         | Instagram API library.                                                |
 | tslint                          | Linter (similar to ESLint) for TypeScript files                       |
+| typedoc                         | A documentation generator for TypeScript projects.                    |
 | typescript                      | JavaScript compiler/type checker that boosts JavaScript productivity  |
