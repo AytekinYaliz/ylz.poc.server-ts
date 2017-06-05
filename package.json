@@ -5,8 +5,8 @@
   "private": true,
   "author": "",
   "scripts": {
-    "start": "npm run build && npm run watch",
-    "serve": "node dist/server.js",
+    "start": "node dist/server.js",
+    "serve": "npm run build && npm run watch",
     "build": "tsc",
     "build:watch": "tsc -w",
     "test": "jest --forceExit",
