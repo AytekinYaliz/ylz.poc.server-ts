@@ -4,6 +4,7 @@ import delay from './delay';
 
 import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../IController';
+import Utilities from '../../lib/Utilities';
 //import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/City';
 
 
@@ -20,11 +21,24 @@ export default class CustomersController implements IController {
 
     setRoutes(): void {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll.bind(this));
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get.bind(this));
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {
         setTimeout(() => {
             res.json(cities);
+        }, delay);
+    }
+
+    get(req: Request, res: Response, next: NextFunction): void {
+        setTimeout(() => {
+            let city = cities.find(x => x.id === Number(req.params.id));
+            
+            if (Utilities.isNullOrUndefined(city)) {
+                res.sendStatus(404);
+            }
+
+            res.json(city);
         }, delay);
     }
 }
