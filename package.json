@@ -5,7 +5,7 @@
   "private": true,
   "author": "",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node ./dist/server.js",
     "serve": "npm run build && npm run watch",
     "build": "tsc",
     "build:watch": "tsc -w",
