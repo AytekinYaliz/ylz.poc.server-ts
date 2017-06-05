@@ -18,10 +18,15 @@ class Server {
     public app: express.Application;
 
     public static bootstrap(): Server {
+        console.log('bootstrap');
         return new Server();
     }
 
     private constructor() {
+
+        console.log('constructor');
+
+
         //create expressjs application
         this.app = express();
 
