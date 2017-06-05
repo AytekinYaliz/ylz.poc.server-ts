@@ -15,11 +15,11 @@ const Config_1 = require("./lib/Config");
 const index_1 = require("./controllers/index");
 class Server {
     static bootstrap() {
-        console.log('bootstrap');
+        console.log(process.env.NODE_ENV);
+        console.log(process.env.port);
         return new Server();
     }
     constructor() {
-        console.log('constructor');
         //create expressjs application
         this.app = express();
         // Load environment variables from .env file, where API keys and passwords are configured.

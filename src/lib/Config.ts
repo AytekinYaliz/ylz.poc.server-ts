@@ -44,5 +44,11 @@ export default class Config {
             };
             return;
         }
+
+        this.config = {
+            //'port': '4001',
+            'bodyLimit': '100kb',
+            'corsHeaders': '["Link"]'
+        };
     }
 }
