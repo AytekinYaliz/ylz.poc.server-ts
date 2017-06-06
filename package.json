@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "private": true,
   "author": "",
-  "engines": {  
-      "node": "8.0.0 || 4.x.x"  
+  "engines": {
+      "node": "8.0.0 || 6.x.x",
+      "npm": "3.7.3"
   },
   "scripts": {
     "start": "node ./dist/server.js",
-    "serve": "npm run build && npm run watch",
+    "dev": "npm run build && npm run watch",
     "build": "tsc",
     "build:watch": "tsc -w",
     "test": "jest --forceExit",
