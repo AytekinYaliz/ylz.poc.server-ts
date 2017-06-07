@@ -20,6 +20,7 @@ class Server {
     public static bootstrap(): Server {
         console.log(process.env.NODE_ENV);
         console.log(process.env.port);
+        
         return new Server();
     }
 
