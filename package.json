@@ -5,7 +5,8 @@
   "private": true,
   "author": "",
   "engines": {
-    "node": "8.0.0 || 4.x.x"
+    "node": "8.0.0 || 6.x.x",
+    "npm": "3.7.3"
   },
   "scripts": {
     "start": "node ./dist/server.js",
