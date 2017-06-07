@@ -1,0 +1,14 @@
+## OS metadata
+.DS_Store
+Thumbs.db
+
+## IDEs
+.vscode
+.idea
+.alm
+
+## xxx/**/*
+#dist
+docs
+logs
+node_modules
