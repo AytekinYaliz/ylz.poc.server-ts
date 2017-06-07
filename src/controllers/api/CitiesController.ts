@@ -1,11 +1,9 @@
 import {Router, Request, Response, NextFunction} from "express";
+
 import {cities} from '../../models/City';
 import delay from './delay';
-
-import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../IController';
 import Utilities from '../../lib/Utilities';
-//import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/City';
 
 
 export default class CustomersController implements IController {

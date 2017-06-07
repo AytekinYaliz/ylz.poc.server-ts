@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const City_1 = require("../../models/City");
 const delay_1 = require("./delay");
 const Utilities_1 = require("../../lib/Utilities");
-//import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/City';
 class CustomersController {
     constructor(router, baseUrl) {
         this.router = router;
