@@ -46,7 +46,7 @@
     "ts-jest": "20.0.4",
     "tslint": "5.2.0",
     "typedoc": "0.7.1",
-    "typescript": "2.3.3"
+    "typescript": "2.4.0"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
