@@ -13,8 +13,11 @@ class IndexRoute {
         ];
     }
     createRoutes() {
-        this.router.get('/', (req, res, next) => {
-            res.json({ version: packageJson.version });
+        this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
+            res.json({
+                version: packageJson.version,
+                env: JSON.parse(process.env)
+            });
         });
         this.controllers.forEach(controller => {
             controller.setRoutes();
