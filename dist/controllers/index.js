@@ -13,7 +13,7 @@ class IndexRoute {
         ];
     }
     createRoutes() {
-        this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
+        this.router.get('/', (req, res, next) => {
             res.json({
                 version: packageJson.version,
                 env: JSON.parse(process.env)
