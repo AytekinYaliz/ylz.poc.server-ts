@@ -15,8 +15,8 @@ const Config_1 = require("./lib/Config");
 const index_1 = require("./controllers/index");
 class Server {
     static bootstrap() {
-        console.log(process.env.NODE_ENV);
-        console.log(process.env.port);
+        console.log(`NODE_ENV environment is: ${process.env.NODE_ENV}`);
+        console.log(`Port is: ${process.env.port}`);
         return new Server();
     }
     constructor() {
