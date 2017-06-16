@@ -21,7 +21,7 @@ export class IndexRoute {
         this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
             res.json({
                 version: packageJson.version,
-                NODE_ENV: JSON.parse(process.env),
+                NODE_ENV: process.env.NODE_ENV,
                 env: process.env
             });
         });
