@@ -16,7 +16,7 @@ const index_1 = require("./controllers/index");
 class Server {
     static bootstrap() {
         console.log(`NODE_ENV environment is: ${process.env.NODE_ENV}`);
-        console.log(`Port is:${process.env.port}`);
+        //console.log(`Port is:${process.env.port}`);
         
         return new Server();
     }
