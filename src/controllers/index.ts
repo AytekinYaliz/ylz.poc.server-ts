@@ -19,7 +19,10 @@ export class IndexRoute {
 
     public createRoutes(): void {
         this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-            res.json({ version: packageJson.version });
+            res.json({
+                version: packageJson.version,
+                env: JSON.parse(process.env)
+            });
         });
 
         this.controllers.forEach(controller => {
