@@ -16,7 +16,7 @@ class IndexRoute {
         this.router.get('/', (req, res, next) => {
             res.json({
                 version: packageJson.version,
-                env: JSON.parse(process.env.NODE_ENV)
+                env: process.env.NODE_ENV
             });
         });
         this.controllers.forEach(controller => {
