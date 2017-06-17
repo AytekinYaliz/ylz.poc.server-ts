@@ -18,8 +18,8 @@ class Server {
     public app: express.Application;
 
     public static bootstrap(): Server {
-        console.log(process.env.NODE_ENV);
-        console.log(process.env.port);
+        console.log(`NODE_ENV environment is: ${process.env.NODE_ENV}`);
+        console.log(`Port is: ${process.env.port}`);
         
         return new Server();
     }
@@ -73,7 +73,7 @@ class Server {
             extended: true
         }));
 
-        // mount cookie parker
+        // mount cookie parser
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
 
         // mount override?
