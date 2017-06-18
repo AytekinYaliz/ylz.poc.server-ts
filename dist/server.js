@@ -16,8 +16,7 @@ const index_1 = require("./controllers/index");
 class Server {
     static bootstrap() {
         console.log(`NODE_ENV environment is: ${process.env.NODE_ENV}`);
-        console.log(`Port is:${process.env.port}`);
-        
+        console.log(`Port is: ${process.env.port}`);
         return new Server();
     }
     constructor() {
@@ -57,7 +56,7 @@ class Server {
         this.app.use(bodyParser.urlencoded({
             extended: true
         }));
-        // mount cookie parker
+        // mount cookie parser
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
         // mount override?
         // this.app.use(methodOverride());

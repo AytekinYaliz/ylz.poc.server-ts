@@ -7,7 +7,7 @@ const packageJson = require('../../package.json');
 export class IndexRoute {
     private router: Router;
     private controllers: IController[];
-    private apiBaseUrl = '/api';
+    private readonly apiBaseUrl = '/api';
 
     constructor(router: Router) {
         this.router = router;
