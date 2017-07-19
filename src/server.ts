@@ -79,7 +79,6 @@ class Server {
         // this.app.use(methodOverride());
 
         // Mongo middleware
-        mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds161022.mlab.com:61022/lh_accountancy');
         this.app.use(DB.connectDisconnect);
 
         // catch 404 and forward to error handler
