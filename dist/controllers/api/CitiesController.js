@@ -20,7 +20,7 @@ class CustomersController {
     }
     get(req, res, next) {
         setTimeout(() => {
-            let city = City_1.cities.find(x => x.id === Number(req.params.id));
+            const city = City_1.cities.find(x => x.id === Number(req.params.id));
             if (Utilities_1.default.isNullOrUndefined(city)) {
                 res.sendStatus(404);
             }

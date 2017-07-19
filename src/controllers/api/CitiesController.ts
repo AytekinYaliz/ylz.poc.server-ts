@@ -30,8 +30,8 @@ export default class CustomersController implements IController {
 
     get(req: Request, res: Response, next: NextFunction): void {
         setTimeout(() => {
-            let city = cities.find(x => x.id === Number(req.params.id));
-            
+            const city = cities.find(x => x.id === Number(req.params.id));
+
             if (Utilities.isNullOrUndefined(city)) {
                 res.sendStatus(404);
             }

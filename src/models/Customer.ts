@@ -4,8 +4,8 @@ export default class Customer {
     public middleName: string;
     public lastName: string;
     public city?: number;
-    
-    constructor(id=0, firstName='', middleName='', lastName='', city?: number) {
+
+    constructor(id = 0, firstName = '', middleName = '', lastName = '', city?: number) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;

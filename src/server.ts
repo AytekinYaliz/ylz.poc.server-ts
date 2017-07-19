@@ -13,6 +13,8 @@ import * as bodyParser from 'body-parser';
 
 import Config, {ConfigKeysEnum} from './lib/Config';
 import { IndexRoute } from "./controllers/index";
+import * as DB from './middlewares/DB';
+import * as mongoose from 'mongoose';
 
 class Server {
     public app: express.Application;
@@ -48,12 +50,12 @@ class Server {
 
 
         // mount logger
-        if(process.env.NODE_ENV === 'local') {
+        if (process.env.NODE_ENV === 'local') {
             this.app.use(morgan('dev'));
         } else {
             this.app.use(morgan('combined'));
         }
-        
+
 
         // mount cors
         this.app.use(cors({
@@ -76,8 +78,12 @@ class Server {
         // mount override?
         // this.app.use(methodOverride());
 
+        // Mongo middleware
+        mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds161022.mlab.com:61022/lh_accountancy');
+        this.app.use(DB.connectDisconnect);
+
         // catch 404 and forward to error handler
-        this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+        this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             err.status = 404;
             next(err);
         });
