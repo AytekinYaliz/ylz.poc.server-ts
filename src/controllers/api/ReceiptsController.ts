@@ -5,6 +5,7 @@ import * as mongoose from 'mongoose';
 import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../IController';
 import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
+import storySchema from '../../models/Story';
 
 
 export default class CustomersController implements IController {
@@ -25,21 +26,27 @@ export default class CustomersController implements IController {
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {
-        // res.json({aa: 123});
-
-        // mongoose.connection.close();
-        mongoose.createConnection(Config.instance.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true})
-            .then(() => {
-                res.json({ id: 'ok' });
-            })
-            .catch((error: any) => {
-                console.error(error);
-                res.status(500).json(error);
-            });
+        res.json({aa: 123});
     }
 
     get(req: Request, res: Response, next: NextFunction): void {
-        res.json({});
+        // res.json({});
+
+        const conn = mongoose.createConnection(Config.instance.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true});
+        const storyModel = conn.model('Stories', storySchema);
+        storyModel.find({}).exec((err, stories) => res.json(stories));
+
+        // // (<any>mongoose).Promise = global.Promise;
+        // mongoose.createConnection(Config.instance.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true})
+        //     .then((db: any) => {
+        //         const storyModel = db.model('Story', storySchema);
+        //         storyModel.find({}).exec((err: any, stories: any) => res.json(stories));
+        //         mongoose.connection.close();
+        //     })
+        //     .catch((error: any) => {
+        //         console.error(error);
+        //         res.status(500).json(error);
+        //     });
     }
 
     post(req: Request, res: Response, next: NextFunction): void {

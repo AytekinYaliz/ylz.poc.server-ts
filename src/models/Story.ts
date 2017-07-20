@@ -4,13 +4,15 @@ import { model, Schema, Types } from 'mongoose';
 // (<any>mongoose).Promise = global.Promise;
 
 export default new Schema({
-    id: Types.ObjectId,
+    // id: Types.ObjectId,
     author: String,
-    content: String,
-    created_at: Date
+    content: String
+    // ,createdAt: Date
 }, {
-    // options
+    //timestamps: true
 });
+
+// export default model<any>('Stories', storySchema);
 
 // const storySchema = new Schema({
 //     id: Types.ObjectId,
