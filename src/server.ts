@@ -13,7 +13,7 @@ import * as bodyParser from 'body-parser';
 
 import Config, {ConfigKeysEnum} from './lib/Config';
 import { IndexRoute } from "./controllers/index";
-import * as DB from './middlewares/DB';
+// import * as DB from './middlewares/DB';
 import * as mongoose from 'mongoose';
 
 class Server {
@@ -77,9 +77,6 @@ class Server {
 
         // mount override?
         // this.app.use(methodOverride());
-
-        // Mongo middleware
-        this.app.use(DB.connectDisconnect);
 
         // catch 404 and forward to error handler
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

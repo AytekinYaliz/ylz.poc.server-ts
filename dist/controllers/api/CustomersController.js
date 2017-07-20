@@ -21,7 +21,7 @@ class CustomersController {
     }
     get(req, res, next) {
         setTimeout(() => {
-            let customer = Customer_1.customers.find(x => x.id === Number(req.params.id));
+            const customer = Customer_1.customers.find(x => x.id === Number(req.params.id));
             if (Utilities_1.default.isNullOrUndefined(customer)) {
                 res.sendStatus(404);
             }

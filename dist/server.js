@@ -13,7 +13,6 @@ const bodyParser = require("body-parser");
 // import methodOverride = require("method-override");
 const Config_1 = require("./lib/Config");
 const index_1 = require("./controllers/index");
-const DB = require("./middlewares/DB");
 class Server {
     static bootstrap() {
         return new Server();
@@ -59,8 +58,6 @@ class Server {
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
         // mount override?
         // this.app.use(methodOverride());
-        // Mongo middleware
-        this.app.use(DB.connectDisconnect);
         // catch 404 and forward to error handler
         this.app.use((err, req, res, next) => {
             err.status = 404;

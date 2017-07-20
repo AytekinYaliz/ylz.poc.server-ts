@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 exports.connectDisconnect = (req, res, next) => {
     // Create connection using Mongo Lab URL
     //const connection = mongoose.createConnection('mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy');
-    mongoose.connection.close();
-    const connection = mongoose.connect('mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy', { useMongoClient: true })
+    //mongoose.connection.close();
+    const connection = mongoose.connect('mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy') //, { useMongoClient: true })
         .then(() => {
         console.log('inside mongoo');
         next();

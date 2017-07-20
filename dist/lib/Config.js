@@ -6,6 +6,7 @@ var ConfigKeysEnum;
     ConfigKeysEnum[ConfigKeysEnum["port"] = 0] = "port";
     ConfigKeysEnum[ConfigKeysEnum["bodyLimit"] = 1] = "bodyLimit";
     ConfigKeysEnum[ConfigKeysEnum["corsHeaders"] = 2] = "corsHeaders";
+    ConfigKeysEnum[ConfigKeysEnum["mongoUrl"] = 3] = "mongoUrl";
 })(ConfigKeysEnum = exports.ConfigKeysEnum || (exports.ConfigKeysEnum = {}));
 var DeploymentTypesEnum;
 (function (DeploymentTypesEnum) {
@@ -31,7 +32,8 @@ class Config {
             this.config = {
                 'port': '4001',
                 'bodyLimit': '100kb',
-                'corsHeaders': '["Link"]'
+                'corsHeaders': '["Link"]',
+                'mongoUrl': 'mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy'
             };
             return;
         }

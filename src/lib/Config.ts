@@ -4,7 +4,8 @@ import Utilities from './Utilities';
 export enum ConfigKeysEnum {
     port,
     bodyLimit,
-    corsHeaders
+    corsHeaders,
+    mongoUrl
 }
 export enum DeploymentTypesEnum {
     test,
@@ -35,7 +36,8 @@ export default class Config {
             this.config = {
                 'port': '4001',
                 'bodyLimit': '100kb',
-                'corsHeaders': '["Link"]'
+                'corsHeaders': '["Link"]',
+                'mongoUrl': 'mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy'
             };
             return;
         } else if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CitiesController_1 = require("./api/CitiesController");
 const CustomersController_1 = require("./api/CustomersController");
+const ReceiptsController_1 = require("./api/ReceiptsController");
 const packageJson = require('../../package.json');
 class IndexRoute {
     constructor(router) {
@@ -9,7 +10,8 @@ class IndexRoute {
         this.router = router;
         this.controllers = [
             new CitiesController_1.default(this.router, this.apiBaseUrl),
-            new CustomersController_1.default(this.router, this.apiBaseUrl)
+            new CustomersController_1.default(this.router, this.apiBaseUrl),
+            new ReceiptsController_1.default(this.router, this.apiBaseUrl)
         ];
     }
     createRoutes() {

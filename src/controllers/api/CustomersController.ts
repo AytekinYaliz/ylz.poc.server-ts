@@ -24,16 +24,16 @@ export default class CustomersController implements IController {
         this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post.bind(this));
     }
 
-    getAll(req: Request, res: Response, next: NextFunction): void {      
+    getAll(req: Request, res: Response, next: NextFunction): void {
         setTimeout(() => {
             res.json(customers);
-        }, delay);  
+        }, delay);
     }
-    
+
     get(req: Request, res: Response, next: NextFunction): void {
         setTimeout(() => {
-            let customer = customers.find(x => x.id === Number(req.params.id));
-            
+            const customer = customers.find(x => x.id === Number(req.params.id));
+
             if (Utilities.isNullOrUndefined(customer)) {
                 res.sendStatus(404);
             }
