@@ -26,9 +26,9 @@ export default class CustomersController implements IController, IReadController
 
     setRoutes(): void {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);    //.bind(this));
-        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post);
-        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.put);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
+        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.create);
+        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.update);
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
 
@@ -41,9 +41,6 @@ export default class CustomersController implements IController, IReadController
     }
 
     getOne(req: Request, res: Response, next: NextFunction): void {
-
-        console.log(Config.getConfig(ConfigKeysEnum.mongoUrl));
-
         // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true});
         // const storyModel = conn.model('Stories', storySchema);
         // storyModel.find({}).exec((err, stories) => res.json(stories));
@@ -90,10 +87,10 @@ export default class CustomersController implements IController, IReadController
         //     });
     }
 
-    post(req: Request, res: Response, next: NextFunction): void {
+    create(req: Request, res: Response, next: NextFunction): void {
         res.status(404).json('Not implemented...');
     }
-    put(req: Request, res: Response, next: NextFunction): void {
+    update(req: Request, res: Response, next: NextFunction): void {
         res.status(404).json('Not implemented...');        
     }
     delete(req: Request, res: Response, next: NextFunction): void {

@@ -20,9 +20,9 @@ class CustomersController {
     }
     setRoutes() {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne); //.bind(this));
-        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post);
-        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.put);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
+        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.create);
+        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.update);
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
     // getAll(req: Request, res: Response, next: NextFunction): void {
@@ -34,7 +34,6 @@ class CustomersController {
         });
     }
     getOne(req, res, next) {
-        console.log(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl));
         // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true});
         // const storyModel = conn.model('Stories', storySchema);
         // storyModel.find({}).exec((err, stories) => res.json(stories));
@@ -75,10 +74,10 @@ class CustomersController {
         //         res.status(500).json(error);
         //     });
     }
-    post(req, res, next) {
+    create(req, res, next) {
         res.status(404).json('Not implemented...');
     }
-    put(req, res, next) {
+    update(req, res, next) {
         res.status(404).json('Not implemented...');
     }
     delete(req, res, next) {

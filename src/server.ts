@@ -50,12 +50,7 @@ class Server {
 
 
         // mount logger
-        if (process.env.NODE_ENV === 'local') {
-            this.app.use(morgan('dev'));
-        } else {
-            this.app.use(morgan('combined'));
-        }
-
+        this.app.use((process.env.NODE_ENV === 'local') ?morgan('dev') :morgan('combined'));
 
         // mount cors
         this.app.use(cors({

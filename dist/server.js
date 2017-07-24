@@ -36,12 +36,7 @@ class Server {
         // mount static paths (we don't use this as we are not rendering anything)
         // this.app.use(express.static(path.join(__dirname, "public")));
         // mount logger
-        if (process.env.NODE_ENV === 'local') {
-            this.app.use(morgan('dev'));
-        }
-        else {
-            this.app.use(morgan('combined'));
-        }
+        this.app.use((process.env.NODE_ENV === 'local') ? morgan('dev') : morgan('combined'));
         // mount cors
         this.app.use(cors({
             exposedHeaders: Config_1.default.getConfig(Config_1.ConfigKeysEnum.corsHeaders)

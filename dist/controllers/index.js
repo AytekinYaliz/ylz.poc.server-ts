@@ -22,6 +22,13 @@ class IndexRoute {
                 env: process.env
             });
         });
+        this.router.get('/api', (req, res, next) => {
+            res.json({
+                version: packageJson.version,
+                NODE_ENV: process.env.NODE_ENV,
+                env: 'for more details go to /'
+            });
+        });
         this.controllers.forEach(controller => {
             controller.setRoutes();
         });
