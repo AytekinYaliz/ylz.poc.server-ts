@@ -27,8 +27,8 @@ export default class CustomersController implements IController, IReadController
     setRoutes(): void {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
         this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
-        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.create);
-        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.update);
+        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post);
+        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.put);
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
 
@@ -87,10 +87,10 @@ export default class CustomersController implements IController, IReadController
         //     });
     }
 
-    create(req: Request, res: Response, next: NextFunction): void {
+    post(req: Request, res: Response, next: NextFunction): void {
         res.status(404).json('Not implemented...');
     }
-    update(req: Request, res: Response, next: NextFunction): void {
+    put(req: Request, res: Response, next: NextFunction): void {
         res.status(404).json('Not implemented...');        
     }
     delete(req: Request, res: Response, next: NextFunction): void {

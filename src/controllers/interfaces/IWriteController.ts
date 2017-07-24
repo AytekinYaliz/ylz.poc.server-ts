@@ -1,8 +1,8 @@
 import * as express from 'express';
 
 interface IWriteController {
-    create: express.RequestHandler;
-    update: express.RequestHandler;
+    post: express.RequestHandler;
+    put: express.RequestHandler;
     delete: express.RequestHandler;
 }
 

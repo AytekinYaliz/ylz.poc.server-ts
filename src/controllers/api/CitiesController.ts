@@ -3,10 +3,11 @@ import {Router, Request, Response, NextFunction} from "express";
 import {cities} from '../../models/City';
 import delay from './delay';
 import IController from '../interfaces/IController';
+import IReadController from '../interfaces/IReadController';
 import Utilities from '../../lib/Utilities';
 
 
-export default class CustomersController implements IController {
+export default class CustomersController implements IController, IReadController {
     public router: Router;
     public baseUrl: string;
     public endPointUrl: string;
@@ -19,7 +20,7 @@ export default class CustomersController implements IController {
 
     setRoutes(): void {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {
@@ -28,7 +29,7 @@ export default class CustomersController implements IController {
         }, delay);
     }
 
-    get(req: Request, res: Response, next: NextFunction): void {
+    getOne(req: Request, res: Response, next: NextFunction): void {
         setTimeout(() => {
             const city = cities.find(x => x.id === Number(req.params.id));
 
