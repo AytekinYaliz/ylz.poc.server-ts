@@ -2,7 +2,7 @@ import {Router, Request, Response, NextFunction} from "express";
 
 import {cities} from '../../models/City';
 import delay from './delay';
-import IController from '../IController';
+import IController from '../interfaces/IController';
 import Utilities from '../../lib/Utilities';
 
 
@@ -18,8 +18,8 @@ export default class CustomersController implements IController {
     }
 
     setRoutes(): void {
-        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll.bind(this));
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get.bind(this));
+        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get);
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {

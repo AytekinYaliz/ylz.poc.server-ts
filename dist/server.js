@@ -32,7 +32,7 @@ class Server {
             process.env.NODE_ENV = 'local';
         }
         // configure the port
-        this.app.set('port', process.env.PORT || Config_1.default.instance.getConfig(Config_1.ConfigKeysEnum.port));
+        this.app.set('port', process.env.PORT || Config_1.default.getConfig(Config_1.ConfigKeysEnum.port));
         // mount static paths (we don't use this as we are not rendering anything)
         // this.app.use(express.static(path.join(__dirname, "public")));
         // mount logger
@@ -44,11 +44,11 @@ class Server {
         }
         // mount cors
         this.app.use(cors({
-            exposedHeaders: Config_1.default.instance.getConfig(Config_1.ConfigKeysEnum.corsHeaders)
+            exposedHeaders: Config_1.default.getConfig(Config_1.ConfigKeysEnum.corsHeaders)
         }));
         // mount json form parser
         this.app.use(bodyParser.json({
-            limit: Config_1.default.instance.getConfig(Config_1.ConfigKeysEnum.bodyLimit)
+            limit: Config_1.default.getConfig(Config_1.ConfigKeysEnum.bodyLimit)
         }));
         // mount query string parser
         this.app.use(bodyParser.urlencoded({

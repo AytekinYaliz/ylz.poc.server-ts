@@ -3,7 +3,7 @@ import {Router, Request, Response, NextFunction} from "express";
 
 import delay from './delay';
 import Utilities from '../../lib/Utilities';
-import IController from '../IController';
+import IController from '../interfaces/IController';
 import {customers} from '../../models/Customer';
 
 
@@ -19,9 +19,9 @@ export default class CustomersController implements IController {
     }
 
     setRoutes(): void {
-        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll.bind(this));
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get.bind(this));
-        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post.bind(this));
+        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get);
+        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post);
     }
 
     getAll(req: Request, res: Response, next: NextFunction): void {

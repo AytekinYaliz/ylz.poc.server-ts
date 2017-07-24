@@ -43,7 +43,7 @@ class Server {
         }
 
         // configure the port
-        this.app.set('port', process.env.PORT || Config.instance.getConfig(ConfigKeysEnum.port));
+        this.app.set('port', process.env.PORT || Config.getConfig(ConfigKeysEnum.port));
 
         // mount static paths (we don't use this as we are not rendering anything)
         // this.app.use(express.static(path.join(__dirname, "public")));
@@ -59,12 +59,12 @@ class Server {
 
         // mount cors
         this.app.use(cors({
-            exposedHeaders: Config.instance.getConfig(ConfigKeysEnum.corsHeaders)
+            exposedHeaders: Config.getConfig(ConfigKeysEnum.corsHeaders)
         }));
 
         // mount json form parser
         this.app.use(bodyParser.json({
-            limit: Config.instance.getConfig(ConfigKeysEnum.bodyLimit)
+            limit: Config.getConfig(ConfigKeysEnum.bodyLimit)
         }));
 
         // mount query string parser

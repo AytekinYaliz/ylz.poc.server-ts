@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import IController from './IController';
+import IController from './interfaces/IController';
 import CitiesController from "./api/CitiesController";
 import CustomersController from "./api/CustomersController";
 import ReceiptsController from "./api/ReceiptsController";

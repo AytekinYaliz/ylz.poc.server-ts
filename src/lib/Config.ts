@@ -13,6 +13,43 @@ export enum DeploymentTypesEnum {
     prod
 }
 
+class Config {
+    private static _config: any = null;
+    //private constructor() { }
+    
+    public static getConfig(name: ConfigKeysEnum): string {
+        if (!Config._config) {
+            Config.loadConfig();
+        }
+
+        return Config._config[Utilities.getEnumString(ConfigKeysEnum, name)]
+    }
+
+    private static loadConfig(): void {
+        if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.local)) {
+            Config._config = {
+                'port': '4001',
+                'bodyLimit': '100kb',
+                'corsHeaders': '["Link"]',
+                // 'mongoUrl': 'mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy'
+                'mongoUrl': 'mongodb://localhost:27017/lh_accountancy'
+            };
+            return;
+        } else if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {
+            Config._config = {
+                'port': '4002'
+            };
+            return;
+        }
+
+        Config._config = JSON.parse(process.env.config);
+    }
+}
+
+Object.seal(Config);
+export default Config;
+
+/*
 export default class Config {
     private static _instance: Config;
     private config: any = null;
@@ -47,10 +84,7 @@ export default class Config {
             return;
         }
 
-        this.config = {
-            //'port': '4001',
-            'bodyLimit': '100kb',
-            'corsHeaders': '["Link"]'
-        };
+        this.config = JSON.parse(process.env.config);
     }
 }
+*/

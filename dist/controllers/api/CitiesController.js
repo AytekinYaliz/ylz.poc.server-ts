@@ -10,8 +10,8 @@ class CustomersController {
         this.endPointUrl = '/cities';
     }
     setRoutes() {
-        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll.bind(this));
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get.bind(this));
+        this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get);
     }
     getAll(req, res, next) {
         setTimeout(() => {
