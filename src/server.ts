@@ -1,13 +1,12 @@
-/**
- * Module dependencies.
- */
 import * as express from 'express';
+import * as http from 'http';
 import * as process from 'process';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
 import * as path from 'path';
 import * as errorHandler from 'errorhandler';   //import errorHandler = require('errorhandler');
 import * as bodyParser from 'body-parser';
+import * as socketIo from 'socket.io';
 // import * as cookieParser from "cookie-parser";
 // import methodOverride = require("method-override");
 
@@ -18,6 +17,8 @@ import * as mongoose from 'mongoose';
 
 class Server {
     public app: express.Application;
+    private server: any;
+    private io: any;
 
     public static bootstrap(): Server {
         return new Server();
@@ -26,6 +27,8 @@ class Server {
     private constructor() {
         //create expressjs application
         this.app = express();
+
+        this.server = http.createServer(this.app);
 
         // Load environment variables from .env file, where API keys and passwords are configured.
         //dotenv.config({ path: ".env.example" });
@@ -73,6 +76,9 @@ class Server {
         // mount override?
         // this.app.use(methodOverride());
 
+        // socket.io
+        this.io = socketIo(this.server);
+
         // catch 404 and forward to error handler
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             err.status = 404;
@@ -83,10 +89,23 @@ class Server {
         this.app.use(errorHandler());
 
         // start the server
-        this.app.listen(this.app.get('port'), () => {
+        this.server.listen(this.app.get('port'), () => {
             //console.log(("  App is running at http://localhost:%d in %s mode"), this.app.get('port'), this.app.get("env"));
             console.log(`  App is running at 'http://localhost:${this.app.get('port')}' in '${this.app.get('env')}' mode.`);
             console.log(`  Press CTRL-C to stop\n`);
+        });
+
+        this.io.on('connect', (socket: any) => {
+            console.log('Connected client on port %s.', this.app.get('port'));
+            socket.on('message', (m: {from: string, content: string}/*Message*/) => {
+                console.log('[server](message): %s', JSON.stringify(m));
+                
+                this.io.emit('news', m);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Client disconnected');
+            });
         });
     }
 
