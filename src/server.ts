@@ -123,8 +123,12 @@ class Server {
 
         let count = 0;
         let rec = () => {
+            if (count > 10) {
+                return;
+            }
             setTimeout(() => {
                 this.io.emit('currency_update_rss', this.getRandomCurreny());
+                count++;
                 rec();
             }, 1000);
         }
