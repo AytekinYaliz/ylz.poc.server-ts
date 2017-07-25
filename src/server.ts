@@ -73,9 +73,6 @@ class Server {
         // mount cookie parser
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
 
-        // mount override?
-        // this.app.use(methodOverride());
-
         // socket.io
         this.io = socketIo(this.server);
 
@@ -95,18 +92,7 @@ class Server {
             console.log(`  Press CTRL-C to stop\n`);
         });
 
-        this.io.on('connect', (socket: any) => {
-            console.log('Connected client on port %s.', this.app.get('port'));
-            socket.on('message', (m: {from: string, content: string}/*Message*/) => {
-                console.log('[server](message): %s', JSON.stringify(m));
-                
-                this.io.emit('news', m);
-            });
-
-            socket.on('disconnect', () => {
-                console.log('Client disconnected');
-            });
-        });
+        this.setSocketIO();
     }
 
     private setRoutes() {
@@ -119,6 +105,27 @@ class Server {
 
         //use router middleware
         this.app.use(router);
+    }
+
+    private setSocketIO() {
+        this.io.on('connect', (socket: any) => {
+            console.log('Connected client on port %s.', this.app.get('port'));
+            
+            socket.on('message', (m: {from: string, content: string}/*Message*/) => {
+                console.log('[server](message): %s', JSON.stringify(m));                
+                this.io.emit('news', m);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Client disconnected');
+            });
+        });
+
+        for(let i=0; i<40; i++) {
+            setTimeout(() => {
+                this.io.emit('news',{from: 'bot', content: i});
+            }, i*1000);
+        }
     }
 }
 
