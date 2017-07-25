@@ -111,9 +111,9 @@ class Server {
         this.io.on('connect', (socket: any) => {
             console.log('Connected client on port %s.', this.app.get('port'));
             
-            socket.on('message', (m: {from: string, currency: string, rate: number}/*Message*/) => {
-                console.log('[server](message): %s', JSON.stringify(m));                
-                this.io.emit('news', m);
+            socket.on('currency', (message: {currency: string, rate: number}) => {
+                // console.log('[server](message): %s', JSON.stringify(m));                
+                this.io.emit('currency_update_rss', message);
             });
 
             socket.on('disconnect', () => {
@@ -124,13 +124,13 @@ class Server {
         let count = 0;
         let rec = () => {
             setTimeout(() => {
-                this.io.emit('news', this.getRandomCurreny());
+                this.io.emit('currency_update_rss', this.getRandomCurreny());
                 rec();
             }, 1000);
         }
         rec();
     }
-    private getRandomCurreny(): {from: string, currency: string, rate: number} {
+    private getRandomCurreny(): {currency: string, rate: number} {
         enum CurrencyTypeEnums {
             USD,
             GBP,
@@ -142,7 +142,6 @@ class Server {
         let random = Math.floor(Math.random() * 10000);
 
         return {
-            from: 'bot',
             currency: CurrencyTypeEnums[random % 5],
             rate: random
         };
