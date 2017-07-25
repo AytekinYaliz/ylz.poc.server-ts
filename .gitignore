@@ -12,3 +12,5 @@ Thumbs.db
 docs
 logs
 node_modules
+
+package-lock.json
