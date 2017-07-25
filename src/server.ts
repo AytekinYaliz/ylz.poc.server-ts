@@ -107,11 +107,11 @@ class Server {
         this.app.use(router);
     }
 
-    private setSocketIO() {
+    private setSocketIO(): void {
         this.io.on('connect', (socket: any) => {
             console.log('Connected client on port %s.', this.app.get('port'));
             
-            socket.on('message', (m: {from: string, content: string}/*Message*/) => {
+            socket.on('message', (m: {from: string, currency: string, rate: number}/*Message*/) => {
                 console.log('[server](message): %s', JSON.stringify(m));                
                 this.io.emit('news', m);
             });
@@ -121,11 +121,31 @@ class Server {
             });
         });
 
-        for(let i=0; i<40; i++) {
+        let count = 0;
+        let rec = () => {
             setTimeout(() => {
-                this.io.emit('news',{from: 'bot', content: i});
-            }, i*1000);
+                this.io.emit('news', this.getRandomCurreny());
+                rec();
+            }, 1000);
         }
+        rec();
+    }
+    private getRandomCurreny(): {from: string, currency: string, rate: number} {
+        enum CurrencyTypeEnums {
+            USD,
+            GBP,
+            EUR,
+            TRY,
+            JPY
+        };
+
+        let random = Math.floor(Math.random() * 10000);
+
+        return {
+            from: 'bot',
+            currency: CurrencyTypeEnums[random % 5],
+            rate: random
+        };
     }
 }
 
