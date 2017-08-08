@@ -5,7 +5,10 @@
         "noImplicitAny": true,
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "noUnusedLocals": true,
+        "strictNullChecks": false
+
         // ,"typeRoots" : ["./typePatches"]
         // ,"types" : []
 
