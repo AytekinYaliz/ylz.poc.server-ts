@@ -27,7 +27,6 @@ class Config {
         if (!Config._config) {
             Config.loadConfig();
         }
-
         return Config._config[Utilities.getEnumString(ConfigKeysEnum, name)];
     }
 
