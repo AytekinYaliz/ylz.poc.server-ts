@@ -8,7 +8,7 @@
 //     constructor(collectionName: string) {
 //         this._collectionName = db.collection('documents');
 //     }
-    
+
 //     findAll(): Promise<any[]> {
 //         MongoClient.connect(this._url, (err, db) => {
 //             let collection = db.collection(this._collectionName);
@@ -18,7 +18,7 @@
 //                 db.close();
 
 //                 return ;
-//             });            
+//             });
 //         });
 //     }
 // }

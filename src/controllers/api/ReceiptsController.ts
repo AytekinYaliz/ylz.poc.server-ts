@@ -47,7 +47,7 @@ export default class CustomersController implements IController, IReadController
 
         MongoClient.connect(Config.getConfig(ConfigKeysEnum.mongoUrl))
             .then(db => {
-                let collection = db.collection('Stories');
+                const collection = db.collection('Stories');
 
                 collection.find({}).toArray()
                     .then(docs => {
@@ -60,13 +60,13 @@ export default class CustomersController implements IController, IReadController
             .catch(error => {
                 res.status(500).json(error);
             });
-            
-        // try { 
+
+        // try {
         //      var heroBusiness = new HeroBusiness();
         //         heroBusiness.retrieve((error, result) => {
         //             if(error) res.send({"error": "error"});
         //             else res.send(result);
-        //         });   
+        //         });
         //     }
         //     catch (e)  {
         //         console.log(e);
@@ -91,9 +91,9 @@ export default class CustomersController implements IController, IReadController
         res.status(404).json('Not implemented...');
     }
     put(req: Request, res: Response, next: NextFunction): void {
-        res.status(404).json('Not implemented...');        
+        res.status(404).json('Not implemented...');
     }
     delete(req: Request, res: Response, next: NextFunction): void {
-        res.status(404).json('Not implemented...');        
+        res.status(404).json('Not implemented...');
     }
 }

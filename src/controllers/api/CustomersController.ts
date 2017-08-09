@@ -50,9 +50,9 @@ export default class CustomersController implements IController, IReadController
         res.json({});
     }
     put(req: Request, res: Response, next: NextFunction): void {
-        res.status(404).json('Not implemented...');        
+        res.status(404).json('Not implemented...');
     }
     delete(req: Request, res: Response, next: NextFunction): void {
-        res.status(404).json('Not implemented...');        
+        res.status(404).json('Not implemented...');
     }
 }

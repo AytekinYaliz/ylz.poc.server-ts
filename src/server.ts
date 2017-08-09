@@ -13,7 +13,7 @@ import * as socketIo from 'socket.io';
 import Config, {ConfigKeysEnum} from './lib/Config';
 import { IndexRoute } from "./controllers/index";
 // import * as DB from './middlewares/DB';
-import * as mongoose from 'mongoose';
+// import * as mongoose from 'mongoose';
 
 class Server {
     public app: express.Application;
@@ -53,7 +53,7 @@ class Server {
 
 
         // mount logger
-        this.app.use((process.env.NODE_ENV === 'local') ?morgan('dev') :morgan('combined'));
+        this.app.use((process.env.NODE_ENV === 'local') ? morgan('dev') : morgan('combined'));
 
         // mount cors
         this.app.use(cors({
@@ -110,9 +110,9 @@ class Server {
     private setSocketIO(): void {
         this.io.on('connect', (socket: any) => {
             console.log('Connected client on port %s.', this.app.get('port'));
-            
+
             socket.on('currency', (message: {currency: string, rate: number}) => {
-                // console.log('[server](message): %s', JSON.stringify(m));                
+                // console.log('[server](message): %s', JSON.stringify(m));
                 this.io.emit('currency_update_rss', message);
             });
 
@@ -122,7 +122,7 @@ class Server {
         });
 
         let count = 0;
-        let rec = () => {
+        const rec = () => {
             if (count > 10) {
                 return;
             }
@@ -131,7 +131,7 @@ class Server {
                 count++;
                 rec();
             }, 1000);
-        }
+        };
         rec();
     }
     private getRandomCurreny(): {currency: string, rate: number} {
@@ -141,9 +141,9 @@ class Server {
             EUR,
             TRY,
             JPY
-        };
+        }
 
-        let random = Math.floor(Math.random() * 10000);
+        const random = Math.floor(Math.random() * 10000);
 
         return {
             currency: CurrencyTypeEnums[random % 5],
