@@ -3,10 +3,11 @@ import * as http from 'http';
 import * as process from 'process';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
-import * as path from 'path';
+// import * as path from 'path';
 import * as errorHandler from 'errorhandler';   //import errorHandler = require('errorhandler');
 import * as bodyParser from 'body-parser';
 import * as socketIo from 'socket.io';
+// import * as db from './middlewares/db';
 // import * as cookieParser from "cookie-parser";
 // import methodOverride = require("method-override");
 
@@ -75,6 +76,9 @@ class Server {
 
         // socket.io
         this.io = socketIo(this.server);
+
+        // // mongoDb
+        // this.app.use(require('./middlewares/db').connectDisconnect);
 
         // catch 404 and forward to error handler
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

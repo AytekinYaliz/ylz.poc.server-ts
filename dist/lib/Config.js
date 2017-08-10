@@ -15,7 +15,6 @@ var DeploymentTypesEnum;
     DeploymentTypesEnum[DeploymentTypesEnum["prod"] = 2] = "prod";
 })(DeploymentTypesEnum = exports.DeploymentTypesEnum || (exports.DeploymentTypesEnum = {}));
 class Config {
-    //private constructor() { }
     static getConfig(name) {
         if (!Config._config) {
             Config.loadConfig();
@@ -25,7 +24,7 @@ class Config {
     static loadConfig() {
         if (process.env.NODE_ENV === Utilities_1.default.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.local)) {
             Config._config = {
-                'port': '4001',
+                port: '4001',
                 'bodyLimit': '100kb',
                 'corsHeaders': '["Link"]',
                 // 'mongoUrl': 'mongodb://db_user1:lighthouse@ds161022.mlab.com:61022/lh_accountancy'
@@ -35,7 +34,10 @@ class Config {
         }
         else if (process.env.NODE_ENV === Utilities_1.default.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {
             Config._config = {
-                'port': '4002'
+                port: '4002',
+                bodyLimit: '',
+                corsHeaders: '',
+                mongoUrl: ''
             };
             return;
         }

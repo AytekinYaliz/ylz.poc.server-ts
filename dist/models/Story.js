@@ -1,19 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-// (<any>mongoose).Promise = global.Promise;
-exports.default = new mongoose_1.Schema({
-    // id: Types.ObjectId,
+const storySchema = new mongoose_1.Schema({
+    id: mongoose_1.Schema.Types.ObjectId,
     author: String,
-    content: String
-    // ,createdAt: Date
-}, {});
-// export default model<any>('Stories', storySchema);
-// const storySchema = new Schema({
-//     id: Types.ObjectId,
-//     author: String,
-//     content: String,
-//     created_at: Date
-// });
-// export const List = model<any>('storyShema', storySchema);
+    content: String,
+    createdAt: Date
+}, {
+    collection: 'Stories',
+    timestamps: true
+});
+exports.default = storySchema;
 //# sourceMappingURL=Story.js.map

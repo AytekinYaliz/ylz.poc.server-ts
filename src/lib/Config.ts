@@ -14,6 +14,7 @@ export enum DeploymentTypesEnum {
 }
 
 type TConfig = {
+    [key: string]: string;
     port: string;
     bodyLimit: string;
     corsHeaders: string;

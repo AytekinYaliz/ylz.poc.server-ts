@@ -11,14 +11,14 @@ class CustomersController {
     }
     setRoutes() {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
-        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.get);
+        this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
     }
     getAll(req, res, next) {
         setTimeout(() => {
             res.json(City_1.cities);
         }, delay_1.default);
     }
-    get(req, res, next) {
+    getOne(req, res, next) {
         setTimeout(() => {
             const city = City_1.cities.find(x => x.id === Number(req.params.id));
             if (Utilities_1.default.isNullOrUndefined(city)) {

@@ -1,15 +1,10 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongodb_1 = require("mongodb");
+const mongoose = require("mongoose");
+// import {MongoClient} from 'mongodb';
 const Config_1 = require("../../lib/Config");
+// import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
+const Story_1 = require("../../models/Story");
 class CustomersController {
     // private _repository: IRepository;
     constructor(router, baseUrl) {
@@ -21,42 +16,53 @@ class CustomersController {
     setRoutes() {
         this.router.get(`${this.baseUrl}${this.endPointUrl}`, this.getAll);
         this.router.get(`${this.baseUrl}${this.endPointUrl}/:id`, this.getOne);
-        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.create);
-        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.update);
+        this.router.post(`${this.baseUrl}${this.endPointUrl}`, this.post);
+        this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.put);
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
     // getAll(req: Request, res: Response, next: NextFunction): void {
     //     res.json({aa: 123});
     // }
     getAll(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield res.json([{ aa: 123 }]);
+        const conn = mongoose.createConnection(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl));
+        const storyModel = conn.model('Stories', Story_1.default);
+        storyModel
+            .find({})
+            .sort({ 'createdAt': -1 })
+            .exec()
+            .then(stories => {
+            conn.close();
+            res.json(stories);
+        })
+            .catch(error => {
+            conn.close();
+            res.status(500).json(error);
         });
     }
     getOne(req, res, next) {
         // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl), {useMongoClient: true});
         // const storyModel = conn.model('Stories', storySchema);
         // storyModel.find({}).exec((err, stories) => res.json(stories));
-        mongodb_1.MongoClient.connect(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl))
-            .then(db => {
-            let collection = db.collection('Stories');
-            collection.find({}).toArray()
-                .then(docs => {
-                res.json(docs);
-            })
-                .catch(error => {
-                res.status(500).json(error);
-            });
-        })
-            .catch(error => {
-            res.status(500).json(error);
-        });
-        // try { 
+        // MongoClient.connect(Config.getConfig(ConfigKeysEnum.mongoUrl))
+        //     .then(db => {
+        //         const collection = db.collection('Stories');
+        //         collection.find({}).toArray()
+        //             .then(docs => {
+        //                 res.json(docs);
+        //             })
+        //             .catch(error => {
+        //                 res.status(500).json(error);
+        //             });
+        //     })
+        //     .catch(error => {
+        //         res.status(500).json(error);
+        //     });
+        // try {
         //      var heroBusiness = new HeroBusiness();
         //         heroBusiness.retrieve((error, result) => {
         //             if(error) res.send({"error": "error"});
         //             else res.send(result);
-        //         });   
+        //         });
         //     }
         //     catch (e)  {
         //         console.log(e);
@@ -74,10 +80,21 @@ class CustomersController {
         //         res.status(500).json(error);
         //     });
     }
-    create(req, res, next) {
-        res.status(404).json('Not implemented...');
+    post(req, res, next) {
+        const conn = mongoose.createConnection(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl));
+        const storyModel = conn.model('Stories', Story_1.default);
+        const story = new storyModel(req.body);
+        story.save()
+            .then(data => {
+            conn.close();
+            res.json(data);
+        })
+            .catch(error => {
+            conn.close();
+            res.status(500).json(error);
+        });
     }
-    update(req, res, next) {
+    put(req, res, next) {
         res.status(404).json('Not implemented...');
     }
     delete(req, res, next) {

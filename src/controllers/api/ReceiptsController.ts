@@ -1,14 +1,14 @@
 //import HttpPromise from '../../lib/HttpPromise';
 import {Router, Request, Response, NextFunction} from "express";
 import * as mongoose from 'mongoose';
-import {MongoClient} from 'mongodb';
+// import {MongoClient} from 'mongodb';
 
 import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../interfaces/IController';
 import IReadController from '../interfaces/IReadController';
 import IWriteController from '../interfaces/IWriteController';
-import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
-import storySchema from '../../models/Story';
+// import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
+import  storySchema  from '../../models/Story';
 
 
 export default class CustomersController implements IController, IReadController, IWriteController {
@@ -36,8 +36,22 @@ export default class CustomersController implements IController, IReadController
     //     res.json({aa: 123});
     // }
 
-    async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await res.json( [{aa: 123}] );
+    getAll(req: Request, res: Response, next: NextFunction): void {
+        const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        const storyModel = conn.model('Stories', storySchema);
+
+        storyModel
+            .find({})
+            .sort({'createdAt': -1})
+            .exec()
+            .then(stories => {
+                conn.close();
+                res.json(stories);
+            })
+            .catch(error => {
+                conn.close();
+                res.status(500).json(error);
+            });
     }
 
     getOne(req: Request, res: Response, next: NextFunction): void {
@@ -45,21 +59,21 @@ export default class CustomersController implements IController, IReadController
         // const storyModel = conn.model('Stories', storySchema);
         // storyModel.find({}).exec((err, stories) => res.json(stories));
 
-        MongoClient.connect(Config.getConfig(ConfigKeysEnum.mongoUrl))
-            .then(db => {
-                const collection = db.collection('Stories');
+        // MongoClient.connect(Config.getConfig(ConfigKeysEnum.mongoUrl))
+        //     .then(db => {
+        //         const collection = db.collection('Stories');
 
-                collection.find({}).toArray()
-                    .then(docs => {
-                        res.json(docs);
-                    })
-                    .catch(error => {
-                        res.status(500).json(error);
-                    });
-            })
-            .catch(error => {
-                res.status(500).json(error);
-            });
+        //         collection.find({}).toArray()
+        //             .then(docs => {
+        //                 res.json(docs);
+        //             })
+        //             .catch(error => {
+        //                 res.status(500).json(error);
+        //             });
+        //     })
+        //     .catch(error => {
+        //         res.status(500).json(error);
+        //     });
 
         // try {
         //      var heroBusiness = new HeroBusiness();
@@ -88,7 +102,20 @@ export default class CustomersController implements IController, IReadController
     }
 
     post(req: Request, res: Response, next: NextFunction): void {
-        res.status(404).json('Not implemented...');
+        const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        const storyModel = conn.model('Stories', storySchema);
+
+        const story = new storyModel(req.body);
+
+        story.save()
+            .then(data => {
+                conn.close();
+                res.json(data);
+            })
+            .catch(error => {
+                conn.close();
+                res.status(500).json(error);
+            });
     }
     put(req: Request, res: Response, next: NextFunction): void {
         res.status(404).json('Not implemented...');
