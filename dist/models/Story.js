@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const storySchema = new mongoose_1.Schema({
-    id: mongoose_1.Schema.Types.ObjectId,
+const mongoose = require("mongoose");
+const storySchema = new mongoose.Schema({
+    id: mongoose.Schema.Types.ObjectId,
     author: String,
     content: String,
     createdAt: Date
@@ -10,5 +10,9 @@ const storySchema = new mongoose_1.Schema({
     collection: 'Stories',
     timestamps: true
 });
-exports.default = storySchema;
+// export default storySchema;
+// // export const User: UserType = mongoose.model<UserType>('User', userSchema);
+// const User = mongoose.model("User", userSchema);
+// export default User;
+exports.default = mongoose.model('Stories', storySchema);
 //# sourceMappingURL=Story.js.map

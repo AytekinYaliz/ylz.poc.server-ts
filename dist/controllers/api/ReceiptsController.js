@@ -1,8 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require("mongoose");
-// import {MongoClient} from 'mongodb';
-const Config_1 = require("../../lib/Config");
 // import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
 const Story_1 = require("../../models/Story");
 class CustomersController {
@@ -24,18 +21,19 @@ class CustomersController {
     //     res.json({aa: 123});
     // }
     getAll(req, res, next) {
-        const conn = mongoose.createConnection(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl));
-        const storyModel = conn.model('Stories', Story_1.default);
-        storyModel
+        // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const storyModel = conn.model('Stories', storySchema);
+        // const storyModel = mongoose.model('Stories', storySchema);
+        Story_1.default
             .find({})
             .sort({ 'createdAt': -1 })
             .exec()
             .then(stories => {
-            conn.close();
+            // conn.close();
             res.json(stories);
         })
             .catch(error => {
-            conn.close();
+            // conn.close();
             res.status(500).json(error);
         });
     }
@@ -81,16 +79,17 @@ class CustomersController {
         //     });
     }
     post(req, res, next) {
-        const conn = mongoose.createConnection(Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl));
-        const storyModel = conn.model('Stories', Story_1.default);
-        const story = new storyModel(req.body);
+        //const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const storyModel = conn.model('Stories', storySchema);
+        // const storyModel = mongoose.model('Stories', storySchema);
+        const story = new Story_1.default(req.body);
         story.save()
             .then(data => {
-            conn.close();
+            //conn.close();
             res.json(data);
         })
             .catch(error => {
-            conn.close();
+            //conn.close();
             res.status(500).json(error);
         });
     }

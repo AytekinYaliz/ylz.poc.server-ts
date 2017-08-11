@@ -15,7 +15,7 @@ const socketIo = require("socket.io");
 const Config_1 = require("./lib/Config");
 const index_1 = require("./controllers/index");
 // import * as DB from './middlewares/DB';
-// import * as mongoose from 'mongoose';
+const mongoose = require("mongoose");
 class Server {
     static bootstrap() {
         return new Server();
@@ -55,10 +55,10 @@ class Server {
         }));
         // mount cookie parser
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
+        // mongoDb
+        this.setMongoDb();
         // socket.io
-        this.io = socketIo(this.server);
-        // // mongoDb
-        // this.app.use(require('./middlewares/db').connectDisconnect);
+        this.setSocketIo();
         // catch 404 and forward to error handler
         this.app.use((err, req, res, next) => {
             err.status = 404;
@@ -72,7 +72,33 @@ class Server {
             console.log(`  App is running at 'http://localhost:${this.app.get('port')}' in '${this.app.get('env')}' mode.`);
             console.log(`  Press CTRL-C to stop\n`);
         });
-        this.setSocketIO();
+        process.on('exit', () => {
+            console.log('EXIT', mongoose.connection.readyState);
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through app termination');
+                });
+            }
+        });
+        //catches ctrl+c event
+        process.on('SIGINT', () => {
+            console.log('SIGINT', mongoose.connection.readyState);
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through app termination');
+                    process.exit(0);
+                });
+            }
+        });
+        // //catches uncaught exceptions
+        // process.on('uncaughtException', (e: any) => {
+        //     console.log('uncaughtException', mongoose.connection.readyState);
+        //     if (mongoose.connection.readyState === 1) {
+        //         mongoose.connection.close(() => {
+        //             console.log('Mongoose default connection disconnected through app termination');
+        //         });
+        //     }
+        // });
     }
     setRoutes() {
         let router;
@@ -82,7 +108,25 @@ class Server {
         //use router middleware
         this.app.use(router);
     }
-    setSocketIO() {
+    setMongoDb() {
+        const mongoUrl = Config_1.default.getConfig(Config_1.ConfigKeysEnum.mongoUrl);
+        mongoose.connect(mongoUrl);
+        // When successfully connected
+        mongoose.connection.on('connected', () => {
+            console.log('Mongoose default connection open to: ' + mongoUrl);
+        });
+        // If the connection throws an error
+        mongoose.connection.on('error', () => {
+            console.log("MongoDB connection error. Please make sure MongoDB is running.");
+            //process.exit();
+        });
+        // When the connection is disconnected
+        mongoose.connection.on('disconnected', () => {
+            console.log('Mongoose default connection disconnected from: ' + mongoUrl);
+        });
+    }
+    setSocketIo() {
+        this.io = socketIo(this.server);
         this.io.on('connect', (socket) => {
             console.log('Connected client on port %s.', this.app.get('port'));
             socket.on('currency', (message) => {

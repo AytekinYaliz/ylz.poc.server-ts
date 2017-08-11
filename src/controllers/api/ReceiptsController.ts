@@ -1,14 +1,13 @@
 //import HttpPromise from '../../lib/HttpPromise';
 import {Router, Request, Response, NextFunction} from "express";
-import * as mongoose from 'mongoose';
-// import {MongoClient} from 'mongodb';
+// import * as mongoose from 'mongoose';
 
-import Config, {ConfigKeysEnum} from '../../lib/Config';
+// import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../interfaces/IController';
 import IReadController from '../interfaces/IReadController';
 import IWriteController from '../interfaces/IWriteController';
 // import {IGetCustomersOutput, IGetCustomerOutput, IPostCustomerInput} from '../../models/Customer';
-import  storySchema  from '../../models/Story';
+import  storyModel  from '../../models/Story';
 
 
 export default class CustomersController implements IController, IReadController, IWriteController {
@@ -37,19 +36,21 @@ export default class CustomersController implements IController, IReadController
     // }
 
     getAll(req: Request, res: Response, next: NextFunction): void {
-        const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
-        const storyModel = conn.model('Stories', storySchema);
+        // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const storyModel = conn.model('Stories', storySchema);
+
+        // const storyModel = mongoose.model('Stories', storySchema);
 
         storyModel
             .find({})
             .sort({'createdAt': -1})
             .exec()
             .then(stories => {
-                conn.close();
+                // conn.close();
                 res.json(stories);
             })
             .catch(error => {
-                conn.close();
+                // conn.close();
                 res.status(500).json(error);
             });
     }
@@ -102,18 +103,19 @@ export default class CustomersController implements IController, IReadController
     }
 
     post(req: Request, res: Response, next: NextFunction): void {
-        const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
-        const storyModel = conn.model('Stories', storySchema);
+        //const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const storyModel = conn.model('Stories', storySchema);
 
+        // const storyModel = mongoose.model('Stories', storySchema);
         const story = new storyModel(req.body);
 
         story.save()
             .then(data => {
-                conn.close();
+                //conn.close();
                 res.json(data);
             })
             .catch(error => {
-                conn.close();
+                //conn.close();
                 res.status(500).json(error);
             });
     }

@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
 
- const storySchema = new Schema({
-    id: Schema.Types.ObjectId,
+ const storySchema = new mongoose.Schema({
+    id: mongoose.Schema.Types.ObjectId,
     author: String,
     content: String,
     createdAt: Date
@@ -10,4 +10,10 @@ import { Schema } from 'mongoose';
     timestamps: true
 });
 
-export default storySchema;
+// export default storySchema;
+
+// // export const User: UserType = mongoose.model<UserType>('User', userSchema);
+// const User = mongoose.model("User", userSchema);
+// export default User;
+
+export default mongoose.model('Stories', storySchema);

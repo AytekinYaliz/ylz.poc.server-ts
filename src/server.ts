@@ -14,7 +14,7 @@ import * as socketIo from 'socket.io';
 import Config, {ConfigKeysEnum} from './lib/Config';
 import { IndexRoute } from "./controllers/index";
 // import * as DB from './middlewares/DB';
-// import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
 class Server {
     public app: express.Application;
@@ -74,11 +74,11 @@ class Server {
         // mount cookie parser
         // this.app.use(cookieParser("SECRET_GOES_HERE"));
 
-        // socket.io
-        this.io = socketIo(this.server);
+        // mongoDb
+        this.setMongoDb();
 
-        // // mongoDb
-        // this.app.use(require('./middlewares/db').connectDisconnect);
+        // socket.io
+        this.setSocketIo();
 
         // catch 404 and forward to error handler
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -96,7 +96,30 @@ class Server {
             console.log(`  Press CTRL-C to stop\n`);
         });
 
-        this.setSocketIO();
+        process.on('exit', () => {
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through EXIT');
+                });
+            }
+        });
+        //catches ctrl+c event
+        process.on('SIGINT', () => {
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through SIGINT');
+                    process.exit(0);
+                });
+            }
+        });
+        //catches uncaught exceptions
+        process.on('uncaughtException', (e: any) => {
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through uncaughtException');
+                });
+            }
+        });
     }
 
     private setRoutes() {
@@ -111,7 +134,31 @@ class Server {
         this.app.use(router);
     }
 
-    private setSocketIO(): void {
+    private setMongoDb() {
+        const mongoUrl = Config.getConfig(ConfigKeysEnum.mongoUrl);
+
+        mongoose.connect(mongoUrl);
+
+        // When successfully connected
+        mongoose.connection.on('connected', () => {
+            console.log('Mongoose default connection open to: ' + mongoUrl);
+        });
+
+        // If the connection throws an error
+        mongoose.connection.on('error', (err: any) => {
+            console.log('MongoDB connection error. Please make sure MongoDB is running.' + err);
+            //process.exit(0);
+        });
+
+        // When the connection is disconnected
+        mongoose.connection.on('disconnected', () => {
+            console.log('Mongoose default connection disconnected from: ' + mongoUrl);
+        });
+    }
+
+    private setSocketIo(): void {
+        this.io = socketIo(this.server);
+
         this.io.on('connect', (socket: any) => {
             console.log('Connected client on port %s.', this.app.get('port'));
 
