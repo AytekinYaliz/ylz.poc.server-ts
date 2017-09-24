@@ -11,7 +11,7 @@ import * as socketIo from 'socket.io';
 // import * as cookieParser from "cookie-parser";
 // import methodOverride = require("method-override");
 
-import Config, {ConfigKeysEnum} from './lib/Config';
+import Config, { ConfigKeysEnum, DeploymentTypesEnum} from './lib/Config';
 import { IndexRoute } from "./controllers/index";
 // import * as DB from './middlewares/DB';
 import * as mongoose from 'mongoose';
@@ -43,7 +43,7 @@ class Server {
 
     private setConfig() {
         if (!process.env.NODE_ENV) {
-            process.env.NODE_ENV = 'local';
+            process.env.NODE_ENV = DeploymentTypesEnum.development;
         }
 
         // configure the port
@@ -54,7 +54,7 @@ class Server {
 
 
         // mount logger
-        this.app.use((process.env.NODE_ENV === 'local') ? morgan('dev') : morgan('combined'));
+        this.app.use((process.env.NODE_ENV === DeploymentTypesEnum.development) ? morgan('dev') : morgan('combined'));
 
         // mount cors
         this.app.use(cors({
@@ -91,7 +91,6 @@ class Server {
 
         // start the server
         this.server.listen(this.app.get('port'), () => {
-            //console.log(("  App is running at http://localhost:%d in %s mode"), this.app.get('port'), this.app.get("env"));
             console.log(`  App is running at 'http://localhost:${this.app.get('port')}' in '${this.app.get('env')}' mode.`);
             console.log(`  Press CTRL-C to stop\n`);
         });
@@ -146,7 +145,7 @@ class Server {
 
         // If the connection throws an error
         mongoose.connection.on('error', (err: any) => {
-            console.log('MongoDB connection error. Please make sure MongoDB is running.' + err);
+            console.log('MongoDB connection error. Please make sure MongoDB is running. Error: ' + err);
             //process.exit(0);
         });
 

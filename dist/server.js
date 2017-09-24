@@ -33,14 +33,14 @@ class Server {
     }
     setConfig() {
         if (!process.env.NODE_ENV) {
-            process.env.NODE_ENV = 'local';
+            process.env.NODE_ENV = Config_1.DeploymentTypesEnum.development;
         }
         // configure the port
         this.app.set('port', process.env.PORT || Config_1.default.getConfig(Config_1.ConfigKeysEnum.port));
         // mount static paths (we don't use this as we are not rendering anything)
         // this.app.use(express.static(path.join(__dirname, "public")));
         // mount logger
-        this.app.use((process.env.NODE_ENV === 'local') ? morgan('dev') : morgan('combined'));
+        this.app.use((process.env.NODE_ENV === Config_1.DeploymentTypesEnum.development) ? morgan('dev') : morgan('combined'));
         // mount cors
         this.app.use(cors({
             exposedHeaders: Config_1.default.getConfig(Config_1.ConfigKeysEnum.corsHeaders)
@@ -68,37 +68,33 @@ class Server {
         this.app.use(errorHandler());
         // start the server
         this.server.listen(this.app.get('port'), () => {
-            //console.log(("  App is running at http://localhost:%d in %s mode"), this.app.get('port'), this.app.get("env"));
             console.log(`  App is running at 'http://localhost:${this.app.get('port')}' in '${this.app.get('env')}' mode.`);
             console.log(`  Press CTRL-C to stop\n`);
         });
         process.on('exit', () => {
-            console.log('EXIT', mongoose.connection.readyState);
             if (mongoose.connection.readyState === 1) {
                 mongoose.connection.close(() => {
-                    console.log('Mongoose default connection disconnected through app termination');
+                    console.log('Mongoose default connection disconnected through EXIT');
                 });
             }
         });
         //catches ctrl+c event
         process.on('SIGINT', () => {
-            console.log('SIGINT', mongoose.connection.readyState);
             if (mongoose.connection.readyState === 1) {
                 mongoose.connection.close(() => {
-                    console.log('Mongoose default connection disconnected through app termination');
+                    console.log('Mongoose default connection disconnected through SIGINT');
                     process.exit(0);
                 });
             }
         });
-        // //catches uncaught exceptions
-        // process.on('uncaughtException', (e: any) => {
-        //     console.log('uncaughtException', mongoose.connection.readyState);
-        //     if (mongoose.connection.readyState === 1) {
-        //         mongoose.connection.close(() => {
-        //             console.log('Mongoose default connection disconnected through app termination');
-        //         });
-        //     }
-        // });
+        //catches uncaught exceptions
+        process.on('uncaughtException', (e) => {
+            if (mongoose.connection.readyState === 1) {
+                mongoose.connection.close(() => {
+                    console.log('Mongoose default connection disconnected through uncaughtException');
+                });
+            }
+        });
     }
     setRoutes() {
         let router;
@@ -116,9 +112,9 @@ class Server {
             console.log('Mongoose default connection open to: ' + mongoUrl);
         });
         // If the connection throws an error
-        mongoose.connection.on('error', () => {
-            console.log("MongoDB connection error. Please make sure MongoDB is running.");
-            //process.exit();
+        mongoose.connection.on('error', (err) => {
+            console.log('MongoDB connection error. Please make sure MongoDB is running. Error: ' + err);
+            //process.exit(0);
         });
         // When the connection is disconnected
         mongoose.connection.on('disconnected', () => {

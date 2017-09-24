@@ -10,9 +10,9 @@ var ConfigKeysEnum;
 })(ConfigKeysEnum = exports.ConfigKeysEnum || (exports.ConfigKeysEnum = {}));
 var DeploymentTypesEnum;
 (function (DeploymentTypesEnum) {
-    DeploymentTypesEnum[DeploymentTypesEnum["test"] = 0] = "test";
-    DeploymentTypesEnum[DeploymentTypesEnum["local"] = 1] = "local";
-    DeploymentTypesEnum[DeploymentTypesEnum["prod"] = 2] = "prod";
+    DeploymentTypesEnum["test"] = "test";
+    DeploymentTypesEnum["development"] = "development";
+    DeploymentTypesEnum["production"] = "production";
 })(DeploymentTypesEnum = exports.DeploymentTypesEnum || (exports.DeploymentTypesEnum = {}));
 class Config {
     static getConfig(name) {
@@ -22,7 +22,7 @@ class Config {
         return Config._config[Utilities_1.default.getEnumString(ConfigKeysEnum, name)];
     }
     static loadConfig() {
-        if (process.env.NODE_ENV === Utilities_1.default.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.local)) {
+        if (process.env.NODE_ENV === DeploymentTypesEnum.development) {
             Config._config = {
                 port: '4001',
                 'bodyLimit': '100kb',
@@ -32,7 +32,7 @@ class Config {
             };
             return;
         }
-        else if (process.env.NODE_ENV === Utilities_1.default.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {
+        else if (process.env.NODE_ENV === DeploymentTypesEnum.test) {
             Config._config = {
                 port: '4002',
                 bodyLimit: '',

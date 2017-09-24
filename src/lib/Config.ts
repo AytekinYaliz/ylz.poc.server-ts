@@ -8,9 +8,9 @@ export enum ConfigKeysEnum {
     mongoUrl
 }
 export enum DeploymentTypesEnum {
-    test,
-    local,
-    prod
+    test = 'test',
+    development = 'development',
+    production = 'production'
 }
 
 type TConfig = {
@@ -33,7 +33,7 @@ class Config {
     }
 
     private static loadConfig(): void {
-        if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.local)) {
+        if (process.env.NODE_ENV === DeploymentTypesEnum.development) {
             Config._config = {
                 port: '4001',
                 'bodyLimit': '100kb',
@@ -42,7 +42,7 @@ class Config {
                 'mongoUrl': 'mongodb://localhost:27017/lh_accountancy'
             };
             return;
-        } else if (process.env.NODE_ENV === Utilities.getEnumString(DeploymentTypesEnum, DeploymentTypesEnum.test)) {
+        } else if (process.env.NODE_ENV === DeploymentTypesEnum.test) {
             Config._config = {
                 port: '4002',
                 bodyLimit: '',

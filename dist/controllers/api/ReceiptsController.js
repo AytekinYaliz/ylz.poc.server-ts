@@ -17,9 +17,6 @@ class CustomersController {
         this.router.put(`${this.baseUrl}${this.endPointUrl}`, this.put);
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
-    // getAll(req: Request, res: Response, next: NextFunction): void {
-    //     res.json({aa: 123});
-    // }
     getAll(req, res, next) {
         // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
         // const storyModel = conn.model('Stories', storySchema);
@@ -29,11 +26,9 @@ class CustomersController {
             .sort({ 'createdAt': -1 })
             .exec()
             .then(stories => {
-            // conn.close();
             res.json(stories);
         })
             .catch(error => {
-            // conn.close();
             res.status(500).json(error);
         });
     }
@@ -79,17 +74,15 @@ class CustomersController {
         //     });
     }
     post(req, res, next) {
-        //const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
         // const storyModel = conn.model('Stories', storySchema);
         // const storyModel = mongoose.model('Stories', storySchema);
         const story = new Story_1.default(req.body);
         story.save()
             .then(data => {
-            //conn.close();
             res.json(data);
         })
             .catch(error => {
-            //conn.close();
             res.status(500).json(error);
         });
     }

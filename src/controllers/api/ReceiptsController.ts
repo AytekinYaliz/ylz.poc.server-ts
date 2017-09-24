@@ -1,8 +1,6 @@
 //import HttpPromise from '../../lib/HttpPromise';
 import {Router, Request, Response, NextFunction} from "express";
-// import * as mongoose from 'mongoose';
 
-// import Config, {ConfigKeysEnum} from '../../lib/Config';
 import IController from '../interfaces/IController';
 import IReadController from '../interfaces/IReadController';
 import IWriteController from '../interfaces/IWriteController';
@@ -31,10 +29,6 @@ export default class CustomersController implements IController, IReadController
         this.router.delete(`${this.baseUrl}${this.endPointUrl}`, this.delete);
     }
 
-    // getAll(req: Request, res: Response, next: NextFunction): void {
-    //     res.json({aa: 123});
-    // }
-
     getAll(req: Request, res: Response, next: NextFunction): void {
         // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
         // const storyModel = conn.model('Stories', storySchema);
@@ -46,11 +40,9 @@ export default class CustomersController implements IController, IReadController
             .sort({'createdAt': -1})
             .exec()
             .then(stories => {
-                // conn.close();
                 res.json(stories);
             })
             .catch(error => {
-                // conn.close();
                 res.status(500).json(error);
             });
     }
@@ -103,7 +95,7 @@ export default class CustomersController implements IController, IReadController
     }
 
     post(req: Request, res: Response, next: NextFunction): void {
-        //const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
+        // const conn = mongoose.createConnection(Config.getConfig(ConfigKeysEnum.mongoUrl));
         // const storyModel = conn.model('Stories', storySchema);
 
         // const storyModel = mongoose.model('Stories', storySchema);
@@ -111,11 +103,9 @@ export default class CustomersController implements IController, IReadController
 
         story.save()
             .then(data => {
-                //conn.close();
                 res.json(data);
             })
             .catch(error => {
-                //conn.close();
                 res.status(500).json(error);
             });
     }
