@@ -14,8 +14,9 @@
     "nodemon": "nodemon ./dist/server.js",
     "build": "tsc",
     "postbuild": "npm run copy-static-assets",
-    "test": "jest --forceExit",
-    "test:w": "jest --forceExit --watch",
+    "test": "jest --forceExit --detectOpenHandles",
+    "test:c": "npm run test -- --coverage",
+    "test:w": "npm run test -- --watch",
     "publish": "node ./dist/server.js",
     "publish-dev": "cross-env NODE_ENV=dev npm run publish",
     "publish-uat": "cross-env NODE_ENV=uat npm run publish",
@@ -57,6 +58,9 @@
     "typescript": "2.4.0"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}"
+    ],
     "coveragePathIgnorePatterns": [
       "src/types"
     ],
