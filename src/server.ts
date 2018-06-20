@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import * as process from 'process';
-import * as morgan from 'morgan';
+import * as morganBody from 'morgan-body';
 import * as cors from 'cors';
 // import * as path from 'path';
 import * as errorHandler from 'errorhandler';   //import errorHandler = require('errorhandler');
@@ -54,7 +54,7 @@ class Server {
 
 
         // mount logger
-        this.app.use((process.env.NODE_ENV === DeploymentTypesEnum.development) ? morgan('dev') : morgan('combined'));
+        morganBody(this.app);
 
         // mount cors
         this.app.use(cors({
